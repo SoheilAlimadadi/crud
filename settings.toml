@@ -1,0 +1,9 @@
+[settings]
+
+[settings.database]
+
+DB_NAME="students"
+DB_USER="students_user"
+DB_PASSWORD="_0vw_i_hNFTuuPRYrvlmAcrUYEnJr9EVFuNA6ngvMzDhU1_F6zWilg"
+DB_PORT=5432
+DB_HOST="127.0.0.1"
