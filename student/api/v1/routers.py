@@ -8,6 +8,7 @@ from .schemas import (
     StudentUpdateSchema
 )
 from student.repository.bll import StudentService
+from student.helpers.exceptions import CreationError
 
 router = APIRouter()
 service_layer = StudentService()
@@ -33,9 +34,18 @@ async def create_student(student: StudentResponseSchema):
     HTTPException
         If there is an error creating the student.
     """
-    new_student = service_layer.create(**student.dict())
+    try:
+        new_student = service_layer.create(**student.dict())
+    except CreationError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Unable to create user due to duplication"
+        )
     if new_student is None:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Error creating student")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Error creating student"
+        )
     return new_student
 
 
@@ -56,7 +66,10 @@ async def read_students():
     """
     students = service_layer.get_all()
     if not students:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No students found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No students found"
+        )
     return [student[0] for student in students]
 
 
@@ -82,7 +95,10 @@ async def read_student(student_id: int):
     """
     student = service_layer.get_one(student_id)
     if student is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Student not found"
+        )
     return student[0]
 
 
@@ -110,7 +126,10 @@ async def update_student(student_id: int, student: StudentUpdateSchema):
     """
     updated_student = service_layer.update(student_id, **student.dict())
     if updated_student is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Student not found"
+        )
     return updated_student
 
 
@@ -136,5 +155,8 @@ async def delete_student(student_id: int):
     """
     deleted_student = service_layer.delete(student_id)
     if deleted_student is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Student not found"
+        )
     return deleted_student
