@@ -1,10 +1,5 @@
-from pathlib import Path
+from .base import config
 
-from utils import get_settings
-
-
-config = get_settings()
-BASE_DIR = Path(__file__).resolve().parent
 
 # DB info
 DB_CONF: dict = config['database']
