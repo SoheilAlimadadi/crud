@@ -73,42 +73,6 @@ class StudentResponseSchema(StudentBase):
     address: str
 
 
-class StudentBase(BaseModel):
-    """
-    A Pydantic model representing the base attributes of a student.
-
-    This class defines a Pydantic model for the base attributes of a student.
-    It is used as a base class for other Pydantic models that include additional
-    attributes.
-
-    Config:
-        orm_mode (bool): A configuration option that allows this model to be
-        used in SQLAlchemy ORM mode.
-
-    Examples
-    --------
-    To create a new Pydantic model representing a student with additional
-    attributes, simply inherit from the `StudentBase` class and add the
-    additional attributes:
-
-    >>> from pydantic import BaseModel
-    >>> from datetime import date
-    >>> from student.helpers.enums import GenderOptions, GradeOptions
-    >>> class StudentResponseSchema(StudentBase):
-    ...     firstname: str
-    ...     lastname: str
-    ...     phone_number: str
-    ...     gender: GenderOptions
-    ...     birth_date: date
-    ...     grade: GradeOptions
-    ...     enrollment_date: date
-    ...     graduation_date: date
-    ...     address: str
-    """
-    class Config:
-        orm_mode = True
-
-
 class StudentUpdateSchema(StudentBase):
     """
     A Pydantic model representing the attributes of a student.
