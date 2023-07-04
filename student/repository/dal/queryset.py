@@ -1,4 +1,3 @@
-import logging
 from typing import List, Optional
 
 from sqlalchemy import select, update, insert, delete
@@ -11,7 +10,7 @@ from student.helpers.exceptions import (
     RetrievalError,
     DeletionError,
     CreationError,
-    UpdateError
+    UpdateError,
 )
 
 
@@ -55,7 +54,7 @@ class StudentDataAccessLayer(IDataAccessLayer):
             return students
         except SQLAlchemyError as e:
             coreLogger.error(f"Failed to get all students: {e}")
-            raise RetrievalError("Error retrieving all students from database") from e
+            raise RetrievalError("Error retrieving all students from database")
 
     def get_one(self, id: int) -> Optional[Student]:
         """
@@ -82,7 +81,9 @@ class StudentDataAccessLayer(IDataAccessLayer):
             return student
         except SQLAlchemyError as e:
             coreLogger.error(f"Failed to get student with id {id}: {e}")
-            raise RetrievalError(f"Error retrieving student with id {id} from database") from e
+            raise RetrievalError(
+                f"Error retrieving student with id {id} from database"
+            )
 
     def create(self, **kwargs) -> Student:
         """
@@ -107,7 +108,7 @@ class StudentDataAccessLayer(IDataAccessLayer):
         except SQLAlchemyError as e:
             Student.database.session.rollback()
             coreLogger.error(f"Failed to create student: {e}")
-            raise CreationError("Error creating student in database") from e
+            raise CreationError("Error creating student in database")
 
     def update(self, id: int, **kwargs) -> Optional[bool]:
         """
@@ -137,7 +138,9 @@ class StudentDataAccessLayer(IDataAccessLayer):
         except SQLAlchemyError as e:
             Student.database.session.rollback()
             coreLogger.error(f"Failed to update student with id {id}: {e}")
-            raise UpdateError(f"Error updating student with id {id} in database") from e
+            raise UpdateError(
+                f"Error updating student with id {id} in database"
+            )
 
     def delete(self, id: int) -> Optional[bool]:
         """
@@ -164,4 +167,6 @@ class StudentDataAccessLayer(IDataAccessLayer):
         except SQLAlchemyError as e:
             Student.database.session.rollback()
             coreLogger.error(f"Failed to delete student with id {id}: {e}")
-            raise DeletionError(f"Error deleting student with id {id} from database") from e
+            raise DeletionError(
+                f"Error deleting student with id {id} from database"
+            )

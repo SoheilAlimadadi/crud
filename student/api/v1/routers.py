@@ -1,5 +1,11 @@
-from fastapi import APIRouter, HTTPException, status
 from typing import List
+
+from fastapi import (
+    APIRouter,
+    HTTPException,
+    status
+)
+from pydantic import ValidationError
 
 from .schemas import (
     StudentResponseSchema,
@@ -8,7 +14,11 @@ from .schemas import (
     StudentUpdateSchema
 )
 from student.repository.bll import StudentService
-from student.helpers.exceptions import CreationError
+from student.helpers.exceptions import (
+    CreationError,
+    InvalidPhoneNumberError
+)
+from kernel.settings.logging import coreLogger
 
 router = APIRouter()
 service_layer = StudentService()
@@ -36,6 +46,18 @@ async def create_student(student: StudentResponseSchema):
     """
     try:
         new_student = service_layer.create(**student.dict())
+    except ValidationError as e:
+        coreLogger.error(f"ValidationError: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect data was provided"
+        )
+    except InvalidPhoneNumberError as e:
+        coreLogger.error(f"{e}, phone number: {student.phone_number}")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
     except CreationError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -124,7 +146,20 @@ async def update_student(student_id: int, student: StudentUpdateSchema):
     HTTPException
         If the student is not found.
     """
-    updated_student = service_layer.update(student_id, **student.dict())
+    try:
+        updated_student = service_layer.update(student_id, **student.dict())
+    except ValidationError as e:
+        coreLogger.error(f"ValidationError: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect data was provided"
+        )
+    except InvalidPhoneNumberError as e:
+        coreLogger.error(f"{e}, phone number: {student.phone_number}")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
     if updated_student is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

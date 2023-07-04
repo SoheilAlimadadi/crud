@@ -1,4 +1,7 @@
-from enum import Enum
+from enum import (
+    Enum,
+    StrEnum
+)
 
 class GenderOptions(Enum):
     """
@@ -18,10 +21,10 @@ class GenderOptions(Enum):
     --------
     >>> gender = GenderOptions.FEMALE
     >>> print(gender.value)
-    'f'
+    'FEMALE'
     """
-    FEMALE: str = "f"
-    MALE: str = "m"
+    FEMALE: str = "FEMALE"
+    MALE: str = "MALE"
 
 
 class GradeOptions(Enum):
@@ -46,9 +49,27 @@ class GradeOptions(Enum):
     --------
     >>> grade = GradeOptions.BACHELOR
     >>> print(grade.value)
-    'bachelor'
+    'BACHELOR'
     """
-    DIPLOMA: str = "diploma"
-    BACHELOR: str = "bachelor"
-    MASTER: str = "master"
-    DOCTORATE: str = "phd"
+    DIPLOMA: str = "DIPLOMA"
+    BACHELOR: str = "BACHELOR"
+    MASTER: str = "MASTER"
+    DOCTORATE: str = "DOCTRATE"
+
+
+class RegexPatternEnum(StrEnum):
+    """
+    An enumeration class for regex patterns.
+
+    This class represents different regex patterns as an enumeration.
+    It currently contains only one member, `IRAN_PHONE_NUMBER`, representing the regex pattern for
+    Iranian phone numbers.
+
+    Attributes
+    ----------
+    IRAN_PHONE_NUMBER : str
+        The regex pattern for Iranian phone numbers. It matches a string that starts with '+98' or '0',
+        followed by exactly 9 digits.
+    """
+
+    IRAN_PHONE_NUMBER = r'^(\+98|0)?9\d{9}$'

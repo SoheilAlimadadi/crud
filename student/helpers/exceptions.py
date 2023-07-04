@@ -17,3 +17,10 @@ class UpdateError(DataAccessError):
 class DeletionError(DataAccessError):
     """Exception for errors that occur when deleting data from the database."""
     pass
+
+class InvalidPhoneNumberError(ValueError):
+    """Raised when the phone number is invalid"""
+
+    def __init__(self):
+        self.message = "Invalid phone number"
+        super().__init__(self.message)

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import date
+from datetime import date, datetime
 from student.helpers.enums import (
     GenderOptions,
     GradeOptions
@@ -28,12 +28,12 @@ class StudentBase(BaseModel):
     >>> from datetime import date
     >>> from student.helpers.enums import GenderOptions, GradeOptions
     >>> class StudentResponseSchema(StudentBase):
-    ...     firstname: str
-    ...     lastname: str
+    ...     first_name: str
+    ...     last_name: str
     ...     phone_number: str
     ...     gender: GenderOptions
     ...     birth_date: date
-    ...     grade: GradeOptions
+    ...     education: GradeOptions
     ...     enrollment_date: date
     ...     graduation_date: date
     ...     address: str
@@ -48,7 +48,7 @@ class StudentResponseSchema(StudentBase):
 
     This class defines a Pydantic model for the attributes of a student.
     It includes attributes for the student's first and last name, phone
-    number, gender, birth date, grade level, enrollment date, graduation
+    number, gender, birth date, education level, enrollment date, graduation
     date, and address.
 
     Examples
@@ -62,13 +62,13 @@ class StudentResponseSchema(StudentBase):
     ...     pass
     """
     id: int
-    firstname: str
-    lastname: str
+    first_name: str
+    last_name: str
     phone_number: str
     gender: GenderOptions
     birth_date: date
-    grade: GradeOptions
-    enrollment_date: date
+    education: GradeOptions
+    enrollment_time = datetime
     graduation_date: date
     address: str
 
@@ -79,7 +79,7 @@ class StudentUpdateSchema(StudentBase):
 
     This class defines a Pydantic model for the attributes of a student.
     It includes attributes for the student's first and last name, phone
-    number, gender, birth date, grade level, enrollment date, graduation
+    number, gender, birth date, education level, enrollment date, graduation
     date, and address.
 
     Examples
@@ -92,13 +92,12 @@ class StudentUpdateSchema(StudentBase):
     >>> class StudentRequestSchema(StudentResponseSchema):
     ...     pass
     """
-    firstname: str
-    lastname: str
+    first_name: str
+    last_name: str
     phone_number: str
     gender: GenderOptions
     birth_date: date
-    grade: GradeOptions
-    enrollment_date: date
+    education: GradeOptions
     graduation_date: date
     address: str
 

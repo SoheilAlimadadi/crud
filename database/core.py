@@ -1,5 +1,6 @@
 from sqlalchemy import Engine
 from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session
 
 from helpers.designs import Singleton
@@ -20,6 +21,8 @@ class SqlAlchemy(metaclass=Singleton):
         The SQLAlchemy engine instance.
     session : Session
         The SQLAlchemy session instance.
+    base:
+        The model declarative base
 
     Methods
     -------
@@ -43,6 +46,7 @@ class SqlAlchemy(metaclass=Singleton):
         """
         self.engine = self.create_engine()
         self.session = self.create_session()
+        self.Base = declarative_base()
 
     def create_engine(self) -> Engine:
         """
