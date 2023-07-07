@@ -2,9 +2,9 @@
 
 [settings.database]
 
-DB_NAME="students"
-DB_USER="students_user"
-DB_PASSWORD="_0vw_i_hNFTuuPRYrvlmAcrUYEnJr9EVFuNA6ngvMzDhU1_F6zWilg"
+DB_NAME="crud"
+DB_USER="crud_user"
+DB_PASSWORD="password"
 DB_PORT=5432
 DB_HOST="127.0.0.1"
 

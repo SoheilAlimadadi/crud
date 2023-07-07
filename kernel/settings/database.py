@@ -1,6 +1,5 @@
 from .base import config
 
-
 # DB info
 DB_CONF: dict = config['database']
 DB_NAME: str = DB_CONF['DB_NAME']

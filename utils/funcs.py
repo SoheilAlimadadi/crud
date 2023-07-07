@@ -2,11 +2,6 @@ import os
 import tomllib
 from typing import Dict
 
-from sqlalchemy import create_engine
-from sqlalchemy_utils import (
-    database_exists,
-    create_database
-)
 
 def get_settings() -> Dict[str, str]:
     """
@@ -63,32 +58,3 @@ def create_directories(base_dir: str, directories: list[tuple[str]]) -> None:
         path = os.path.join(base_dir, *directory)
         if not os.path.exists(path):
             os.makedirs(path)
-
-
-def create_db(db_url: str) -> None:
-    """
-    Create a database at the specified URL if it does not exist.
-
-    This function creates a database at the given URL. It first creates an engine
-    for the URL and then checks if a database exists at that URL. If a database
-    does not exist, it creates one.
-
-    Parameters
-    ----------
-    db_url : str
-        The URL of the database to be created. The URL should be a string in 
-        the form "dialect+driver://username:password@host:port/database".
-
-    Returns
-    -------
-    None
-
-    Examples
-    --------
-    >>> create_db('postgresql://user:pass@localhost:5432/mydatabase')
-    """
-
-    engine = create_engine(db_url)
-
-    if not database_exists(engine.url):
-        create_database(engine.url)
