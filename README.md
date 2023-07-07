@@ -28,7 +28,7 @@ poetry install
 
 This will create a virtual environment and install all the required dependencies specified in the `pyproject.toml` file.
 
-the venv should be activated but if it doesn't, run the following command:
+after that, run the following command:
 
 ```bash
 poetry shell
